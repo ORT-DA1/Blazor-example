@@ -3,6 +3,7 @@
 <h1>Editar película</h1>
 
 @using BlazorApp.Data
+@using BlazorApp.DataAccess
 @inject MemoryDatabase MemoryDatabase
 @inject NavigationManager NavigationManager
 
@@ -26,13 +27,19 @@
 @code {
    [Parameter]
    public int Id { get; set; }
+   
    private Movie? currentMovie;
-   protected override void OnInitialized(){
-       currentMovie = MemoryDatabase.FindMovie(Id);
+   private MoviesRepository moviesRepository;
+
+   protected override void OnInitialized()
+   {
+        moviesRepository = new MoviesRepository(MemoryDatabase);
+        currentMovie = moviesRepository.Find(Id);
    }
 
-   private void SaveChanges(){
-       MemoryDatabase.UpdateMovie(currentMovie);
-       NavigationManager.NavigateTo("/movies");
+   private void SaveChanges()
+   {
+        moviesRepository.Update(currentMovie);
+        NavigationManager.NavigateTo("/movies");
    }
 }

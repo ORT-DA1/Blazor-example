@@ -3,6 +3,7 @@
 <PageTitle>Movies List</PageTitle>
 
 @using BlazorApp.Data
+@using BlazorApp.DataAccess
 @inject MemoryDatabase MemoryDatabase
 
 <h1>
@@ -35,14 +36,19 @@
 </table>
 
 @code{
-   private List<Movie>? moviesList;
-   protected override void OnInitialized(){
-       moviesList = MemoryDatabase.Movies;
-   }
+    private List<Movie>? moviesList;
+    private MoviesRepository moviesRepository;
 
-   private void DeleteMovie(int id){
-       MemoryDatabase.DeleteMovie(id);
-   }
+    protected override void OnInitialized()
+    {
+        moviesRepository = new MoviesRepository(MemoryDatabase);
+        moviesList = moviesRepository.GetAll();
+    }
+
+    private void DeleteMovie(int id)
+    {
+        moviesRepository.Delete(id);
+    }
 
 
 }

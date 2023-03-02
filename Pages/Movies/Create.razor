@@ -2,6 +2,7 @@
 <PageTitle>Create Movie</PageTitle>
 
 @using BlazorApp.Data
+@using BlazorApp.DataAccess
 @inject MemoryDatabase MemoryDatabase
 @inject NavigationManager NavigationManager
 
@@ -26,16 +27,18 @@
 
 @code{
    private Movie? currentMovie;
+   private MoviesRepository moviesRepository;
 
    protected override void OnInitialized()
    {
-       currentMovie = new Movie();
-       currentMovie.ReleaseYear= DateTime.Now.Year;
+        moviesRepository = new MoviesRepository(MemoryDatabase);
+        currentMovie = new Movie();
+        currentMovie.ReleaseYear= DateTime.Now.Year;
    }
 
    private void SaveChanges()
    {
-       MemoryDatabase.AddMovie(currentMovie);
+       moviesRepository.Create(currentMovie);
        NavigationManager.NavigateTo("/movies");
    }
 
