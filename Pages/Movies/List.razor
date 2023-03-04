@@ -27,6 +27,11 @@
                <td>@movie.Director</td>
                <td>@movie.ReleaseYear</td>
                <td>
+                    @if(@movie.Category != null){
+                        @movie.Category.Name
+                    }
+                </td>
+               <td>
                    <a class="btn btn-success btn-sm" href="/movies/@movie.Id/edit">Editar</a>
                    <button class="btn btn-danger btn-sm" @onclick="(() => DeleteMovie(movie.Id))">Eliminar</button>
                </td>
