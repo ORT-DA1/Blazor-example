@@ -8,9 +8,16 @@ public class Movie
    public int? ReleaseYear { get; set; }
 
    public Category Category { get; set; }
+   public List<Actor> Actors { get; set; }
+
 
    public override string ToString()
    {
        return $"Id: {Id}, Title: {Title}, Director: {Director}, ReleaseYear: {ReleaseYear}";
+   }
+
+   public bool HasActor(int Id) 
+   {
+        return Actors.Any(a => a.Id == Id);
    }
 }
